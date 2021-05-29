@@ -1,5 +1,5 @@
 from pathlib import Path
-from filevisitor import Files, FileVisitor, FileVisitResult, FileTreatmentException
+from kazurayam.filevisitor import Files, FileVisitor, FileVisitResult, FileTreatmentException
 
 
 class TreeListingVisitor(FileVisitor):
@@ -8,24 +8,24 @@ class TreeListingVisitor(FileVisitor):
         pass
 
     def pre_visit_directory(self, directory: Path) -> FileVisitResult:
-        print("D > {}".format(directory))
+        print("> {}/".format(directory))
         return FileVisitResult.CONTINUE
 
     def post_visit_directory(self, directory: Path) -> FileVisitResult:
-        print("D < {}".format(directory))
+        print("< {}/".format(directory))
         return FileVisitResult.CONTINUE
 
     def visit_file(self, file: Path) -> FileVisitResult:
-        print("F = {}".format(file))
+        print("= {}".format(file))
         return FileVisitResult.CONTINUE
 
     def visit_file_failed(self, file: Path, exception: FileTreatmentException) -> FileVisitResult:
-        print("F ! {}".format(file))
+        print("! {}".format(file))
         return FileVisitResult.CONTINUE
 
 
 if __name__ == '__main__':
-    starting_dir = Path(".")
+    starting_dir = Path("..")
     file_to_search = "greeting"
     crawler = TreeListingVisitor()
     Files.walk_file_tree(starting_dir, crawler)
