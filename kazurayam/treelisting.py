@@ -1,5 +1,5 @@
 from pathlib import Path
-from kazurayam.filevisitor import FileVisitor, FileVisitResult
+from filevisitor import FileVisitor, FileVisitResult
 
 
 class TreeListingVisitor(FileVisitor):

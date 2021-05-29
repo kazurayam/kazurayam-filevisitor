@@ -1,9 +1,9 @@
 import os
 import pytest
 from pathlib import Path
-from kazurayam.fileutils import init_dir, write_file
-from kazurayam.filevisitor import Files
-from kazurayam.TreeListingVisitor import TreeListingVisitor
+from fileutils import init_dir, write_file
+from filevisitor import Files
+from treelisting import TreeListingVisitor
 
 
 @pytest.fixture(scope='module')
