@@ -4,7 +4,7 @@ from pathlib import Path
 from filevisitor import FileVisitor, FileVisitResult, Files
 
 
-class TraceFileTreeVisitor(FileVisitor):
+class GraphvizFileTreeVisitor(FileVisitor):
 
     def __init__(self, starting_dir: Path, buffer: StringIO):
         self.start = starting_dir
@@ -31,14 +31,14 @@ class TraceFileTreeVisitor(FileVisitor):
         return FileVisitResult.CONTINUE
 
 
-class TraceMain:
+class GraphvizMain:
 
     def __init__(self, starting_dir: Path):
         self.start = starting_dir
         self.buffer = StringIO()
 
-    def trace(self):
-        visitor = TraceFileTreeVisitor(self.start, self.buffer)
+    def draw(self):
+        visitor = GraphvizFileTreeVisitor(self.start, self.buffer)
         Files.walk_file_tree(self.start, visitor)
         result = self.buffer.getvalue()
         self.buffer.close()
