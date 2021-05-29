@@ -1,3 +1,6 @@
+"""
+kazurayam/demo.py
+"""
 from pathlib import Path
 from filevisitor import Files
 from tracefiletree import TraceFileTreeVisitor
