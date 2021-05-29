@@ -12,6 +12,6 @@ setup(
     install_requires=open('requirements.txt').read().splitlines(),
     entry_points="""
       [console_scripts]
-      treelisting = kazurayam:TreeListingVisitor 
+      treelisting = kazurayam:TreeListingDemo 
     """,
 )

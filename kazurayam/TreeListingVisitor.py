@@ -1,5 +1,5 @@
 from pathlib import Path
-from kazurayam.filevisitor import Files, FileVisitor, FileVisitResult, FileTreatmentException
+from kazurayam.filevisitor import FileVisitor, FileVisitResult, FileTreatmentException
 
 
 class TreeListingVisitor(FileVisitor):
@@ -24,7 +24,3 @@ class TreeListingVisitor(FileVisitor):
         return FileVisitResult.CONTINUE
 
 
-if __name__ == '__main__':
-    starting_dir = Path(".")
-    crawler = TreeListingVisitor()
-    Files.walk_file_tree(starting_dir, crawler)
