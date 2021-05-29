@@ -1,5 +1,5 @@
 from pathlib import Path
-from kazurayam.filevisitor import FileVisitor, FileVisitResult, FileTreatmentException
+from kazurayam.filevisitor import FileVisitor, FileVisitResult
 
 
 class TreeListingVisitor(FileVisitor):
@@ -11,7 +11,7 @@ class TreeListingVisitor(FileVisitor):
         print("> {}/".format(directory))
         return FileVisitResult.CONTINUE
 
-    def post_visit_directory(self, directory: Path) -> FileVisitResult:
+    def post_visit_directory(self, directory: Path, ioerror: IOError) -> FileVisitResult:
         print("< {}/".format(directory))
         return FileVisitResult.CONTINUE
 
@@ -19,8 +19,6 @@ class TreeListingVisitor(FileVisitor):
         print("= {}".format(file))
         return FileVisitResult.CONTINUE
 
-    def visit_file_failed(self, file: Path, exception: FileTreatmentException) -> FileVisitResult:
+    def visit_file_failed(self, file: Path, ioerror: IOError) -> FileVisitResult:
         print("! {}".format(file))
         return FileVisitResult.CONTINUE
-
-

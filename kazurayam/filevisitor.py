@@ -3,10 +3,6 @@ from pathlib import Path
 from enum import IntEnum, auto
 
 
-class FileTreatmentException(Exception):
-    pass
-
-
 class FileVisitResult(IntEnum):
     CONTINUE = auto()
     SKIP_SIBLINGS = auto()
@@ -24,7 +20,7 @@ class FileVisitor(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def post_visit_directory(self, directory: Path) -> FileVisitResult:
+    def post_visit_directory(self, directory: Path, ioerror: IOError) -> FileVisitResult:
         pass
 
     @abstractmethod
@@ -32,7 +28,7 @@ class FileVisitor(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def visit_file_failed(self, file: Path, exception: FileTreatmentException) -> FileVisitResult:
+    def visit_file_failed(self, file: Path, ioerror: IOError) -> FileVisitResult:
         pass
 
 
@@ -48,6 +44,6 @@ class Files:
             crawler.pre_visit_directory(p)
             for entry in p.iterdir():
                 Files.walk_file_tree(entry, crawler)
-            crawler.post_visit_directory(p)
+            crawler.post_visit_directory(p, None)
         else:
             crawler.visit_file(p)
