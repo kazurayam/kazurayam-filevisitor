@@ -2,13 +2,13 @@ from io import StringIO
 import os.path
 from pathlib import Path
 from filevisitor import FileVisitor, FileVisitResult, Files
-
+from graphviz import Digraph
 
 class GraphvizFileTreeVisitor(FileVisitor):
 
-    def __init__(self, starting_dir: Path, buffer: StringIO):
+    def __init__(self, starting_dir: Path, g: Digraph):
         self.start = starting_dir
-        self.buffer = buffer
+        self.g = g
 
     def pre_visit_directory(self, directory: Path) -> FileVisitResult:
         relative_path = os.path.relpath(directory, self.start)
@@ -38,9 +38,16 @@ class GraphvizMain:
         self.buffer = StringIO()
 
     def draw(self):
-        visitor = GraphvizFileTreeVisitor(self.start, self.buffer)
-        Files.walk_file_tree(self.start, visitor)
-        result = self.buffer.getvalue()
-        self.buffer.close()
-        return result
+        g = Digraph("main", comment="File Tree graph")
+        g.attr('graph', laout="dot", rank="max", rankdir="LR", splines="ortho")
+        g.node_attr.update(fontname="arial", fontsize="10")
+        g.edge_attr.update(constraint="true", arrowhead="onormal")
+        ##
+        g.edge("A", "B")
+        #visitor = GraphvizFileTreeVisitor(self.start, self.buffer)
+        #Files.walk_file_tree(self.start, visitor)
+        #result = self.buffer.getvalue()
+        #self.buffer.close()
+        ##
+        return g
 

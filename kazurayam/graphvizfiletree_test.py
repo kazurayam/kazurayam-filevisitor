@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from fileutils import init_dir, write_file
 from graphvizfiletree import GraphvizMain
+from graphviz import Digraph
 
 
 def test_graph(basedir):
@@ -11,8 +12,8 @@ def test_graph(basedir):
     f = write_file(wt, 'src/greeting', 'Hello, world!\n')
     assert os.path.exists(f)
     #
-    print('\n{}'.format(wt))
     starting_dir = Path(wt)
     main = GraphvizMain(starting_dir)
-    result = main.draw()
-    print(result)
+    g: Digraph = main.draw()
+    print(g.source)
+    g.render("test_graph")
