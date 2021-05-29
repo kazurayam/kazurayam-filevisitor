@@ -25,7 +25,6 @@ class TreeListingVisitor(FileVisitor):
 
 
 if __name__ == '__main__':
-    starting_dir = Path("..")
-    file_to_search = "greeting"
+    starting_dir = Path(".")
     crawler = TreeListingVisitor()
     Files.walk_file_tree(starting_dir, crawler)
