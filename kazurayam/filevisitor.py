@@ -20,7 +20,7 @@ class FileVisitor(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def post_visit_directory(self, directory: Path, ioerror: IOError) -> FileVisitResult:
+    def post_visit_directory(self, directory: Path, io_error: IOError) -> FileVisitResult:
         pass
 
     @abstractmethod
@@ -28,7 +28,7 @@ class FileVisitor(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def visit_file_failed(self, file: Path, ioerror: IOError) -> FileVisitResult:
+    def visit_file_failed(self, file: Path, io_error: IOError) -> FileVisitResult:
         pass
 
 

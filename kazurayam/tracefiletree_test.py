@@ -3,7 +3,7 @@ import pytest
 from pathlib import Path
 from fileutils import init_dir, write_file
 from filevisitor import Files
-from treelisting import TreeListingVisitor
+from tracefiletree import TraceFileTreeVisitor
 
 
 @pytest.fixture(scope='module')
@@ -15,14 +15,14 @@ def basedir():
     os.chdir(project_dir)
 
 
-def test_main(basedir):
-    print("\ntest_main starting")
-    wt = os.path.join(basedir, 'test_main')
+def test_smoke(basedir):
+    wt = os.path.join(basedir, 'test_smoke')
     init_dir(wt)
     os.chdir(wt)
     f = write_file(wt, 'src/greeting', 'Hello, world!\n')
     assert os.path.exists(f)
     #
+    print('\ntest_main ---------------------------')
     starting_dir = Path(wt)
-    crawler = TreeListingVisitor()
+    crawler = TraceFileTreeVisitor(starting_dir)
     Files.walk_file_tree(starting_dir, crawler)
