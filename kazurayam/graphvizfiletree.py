@@ -1,16 +1,16 @@
 import os.path
 from pathlib import Path
-from filevisitor import FileVisitor, FileVisitResult, Files
 from graphviz import Digraph
+from . import filevisitor
 
 
-class GraphvizFileTreeVisitor(FileVisitor):
+class GraphvizFileTreeVisitor(filevisitor.FileVisitor):
 
     def __init__(self, starting_dir: Path, g: Digraph):
         self.start = starting_dir
         self.g = g
 
-    def pre_visit_directory(self, directory: Path) -> FileVisitResult:
+    def pre_visit_directory(self, directory: Path) -> filevisitor.FileVisitResult:
         its_relative_path = os.path.relpath(directory, self.start)
         # self.buffer.write("> {}/\n".format(its_relative_path))
         self.g.node(its_relative_path, directory.name, shape="folder")
@@ -19,25 +19,25 @@ class GraphvizFileTreeVisitor(FileVisitor):
         if directory is not self.start:
             parent_relative_path = os.path.relpath(directory.parent, self.start)
             self.g.edge(parent_relative_path + "_cp", its_relative_path + ":w")
-        return FileVisitResult.CONTINUE
+        return filevisitor.FileVisitResult.CONTINUE
 
-    def post_visit_directory(self, directory: Path, io_error: IOError) -> FileVisitResult:
+    def post_visit_directory(self, directory: Path, io_error: IOError) -> filevisitor.FileVisitResult:
         its_relative_path = os.path.relpath(directory, self.start)
         # self.buffer.write("< {}/\n".format(its_relative_path))
-        return FileVisitResult.CONTINUE
+        return filevisitor.FileVisitResult.CONTINUE
 
-    def visit_file(self, file: Path) -> FileVisitResult:
+    def visit_file(self, file: Path) -> filevisitor.FileVisitResult:
         its_relative_path = os.path.relpath(file, self.start)
         # self.buffer.write("= {}\n".format(its_relative_path))
         self.g.node(its_relative_path, file.name)
         parent_relative_path = os.path.relpath(file.parent, self.start)
         self.g.edge(parent_relative_path + "_cp", its_relative_path + ":w")
-        return FileVisitResult.CONTINUE
+        return filevisitor.FileVisitResult.CONTINUE
 
-    def visit_file_failed(self, file: Path, io_error: IOError) -> FileVisitResult:
+    def visit_file_failed(self, file: Path, io_error: IOError) -> filevisitor.FileVisitResult:
         its_relative_path = os.path.relpath(file, self.start)
         # self.buffer.write("! {}\n".format(its_relative_path))
-        return FileVisitResult.CONTINUE
+        return filevisitor.FileVisitResult.CONTINUE
 
 
 class GraphvizMain:
@@ -54,6 +54,6 @@ class GraphvizMain:
         g.edge_attr.update(constraint="true", arrowhead="onormal")
 
         visitor = GraphvizFileTreeVisitor(self.start, g)
-        Files.walk_file_tree(visitor, self.start, self.excludes)
+        filevisitor.Files.walk_file_tree(visitor, self.start, self.excludes)
 
         return g

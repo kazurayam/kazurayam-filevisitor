@@ -1,12 +1,12 @@
 import os
 import pytest
-from fileutils import init_dir
+from . import fileutils
 
 
 @pytest.fixture(scope='session')
 def basedir():
     project_dir = os.getcwd()
     base = os.path.join(project_dir, "./tmp")
-    init_dir(base)
+    fileutils.init_dir(base)
     yield base
     os.chdir(project_dir)
