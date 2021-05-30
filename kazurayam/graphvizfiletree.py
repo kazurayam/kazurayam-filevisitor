@@ -42,8 +42,9 @@ class GraphvizFileTreeVisitor(FileVisitor):
 
 class GraphvizMain:
 
-    def __init__(self, starting_dir: Path):
+    def __init__(self, starting_dir: Path, excludes=[]):
         self.start = starting_dir
+        self.excludes = excludes
 
     def draw(self):
         g = Digraph("main", comment="File Tree graph")
@@ -53,6 +54,6 @@ class GraphvizMain:
         g.edge_attr.update(constraint="true", arrowhead="onormal")
 
         visitor = GraphvizFileTreeVisitor(self.start, g)
-        Files.walk_file_tree(visitor, self.start)
+        Files.walk_file_tree(visitor, self.start, self.excludes)
 
         return g

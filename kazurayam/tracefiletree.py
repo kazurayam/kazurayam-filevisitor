@@ -33,13 +33,14 @@ class TraceFileTreeVisitor(FileVisitor):
 
 class TraceMain:
 
-    def __init__(self, starting_dir: Path):
+    def __init__(self, starting_dir: Path, excludes=[]):
         self.start = starting_dir
         self.buffer = StringIO()
+        self.excludes = excludes
 
     def trace(self):
         visitor = TraceFileTreeVisitor(self.start, self.buffer)
-        Files.walk_file_tree(visitor, self.start)
+        Files.walk_file_tree(visitor, self.start, self.excludes)
         result = self.buffer.getvalue()
         self.buffer.close()
         return result

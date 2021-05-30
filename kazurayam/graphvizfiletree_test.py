@@ -3,7 +3,6 @@ from pathlib import Path
 from fileutils import init_dir, write_file
 from graphvizfiletree import GraphvizMain
 from graphviz import Digraph
-import fnmatch
 
 
 def test_graph(basedir):
