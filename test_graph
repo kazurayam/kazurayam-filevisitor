@@ -1,0 +1,21 @@
+// File Tree graph
+digraph main {
+	node [fontname=arial fontsize=10 height=0.3 shape=rectangle]
+	edge [arrowhead=onormal constraint=true]
+	graph [laout=dot nodesep=0.2 rank=max rankdir=LR ranksep=0.3 splines=ortho]
+	"." [label=test_graph shape=folder]
+	"._cp" [label="" shape=point width=0]
+	"." -> "._cp" [arrowhead=none]
+	"README.md" [label="README.md"]
+	"._cp" -> "README.md":w
+	".gitignore" [label=".gitignore"]
+	"._cp" -> ".gitignore":w
+	src [label=src shape=folder]
+	src_cp [label="" shape=point width=0]
+	src -> src_cp [arrowhead=none]
+	"._cp" -> src:w
+	"src/hello.pl" [label="hello.pl"]
+	src_cp -> "src/hello.pl":w
+	"src/greeting" [label=greeting]
+	src_cp -> "src/greeting":w
+}

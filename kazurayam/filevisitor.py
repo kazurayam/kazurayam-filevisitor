@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
 from enum import IntEnum, auto
+import fnmatch
 
 
 class FileVisitResult(IntEnum):
@@ -34,16 +35,16 @@ class FileVisitor(metaclass=ABCMeta):
 
 class Files:
     @staticmethod
-    def walk_file_tree(p: Path, visitor: FileVisitor):
+    def walk_file_tree(visitor: FileVisitor, p: Path):
         """
-        :param p: Path
         :param visitor: FileVisitor
+        :param p: Path
         :return: void
         """
         if p.is_dir():
             visitor.pre_visit_directory(p)
             for entry in p.iterdir():
-                Files.walk_file_tree(entry, visitor)
+                Files.walk_file_tree(visitor, entry)
             visitor.post_visit_directory(p, None)
         else:
             visitor.visit_file(p)

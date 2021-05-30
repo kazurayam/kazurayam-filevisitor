@@ -39,7 +39,7 @@ class TraceMain:
 
     def trace(self):
         visitor = TraceFileTreeVisitor(self.start, self.buffer)
-        Files.walk_file_tree(self.start, visitor)
+        Files.walk_file_tree(visitor, self.start)
         result = self.buffer.getvalue()
         self.buffer.close()
         return result

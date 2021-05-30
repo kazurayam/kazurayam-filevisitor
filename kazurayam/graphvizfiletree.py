@@ -47,11 +47,12 @@ class GraphvizMain:
 
     def draw(self):
         g = Digraph("main", comment="File Tree graph")
-        g.attr('graph', laout="dot", rank="max", rankdir="LR", splines="ortho", ranksep="0.3", nodesep="0.2")
+        g.attr('graph', laout="dot", rank="max", rankdir="LR", splines="ortho",
+               ranksep="0.5", nodesep="0.3")
         g.node_attr.update(shape="rectangle", height="0.3", fontname="arial", fontsize="10")
         g.edge_attr.update(constraint="true", arrowhead="onormal")
 
         visitor = GraphvizFileTreeVisitor(self.start, g)
-        Files.walk_file_tree(self.start, visitor)
+        Files.walk_file_tree(visitor, self.start)
 
         return g
