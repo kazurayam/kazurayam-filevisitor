@@ -34,16 +34,16 @@ class FileVisitor(metaclass=ABCMeta):
 
 class Files:
     @staticmethod
-    def walk_file_tree(p: Path, crawler: FileVisitor):
+    def walk_file_tree(p: Path, visitor: FileVisitor):
         """
         :param p: Path
-        :param crawler: FileVisitor
+        :param visitor: FileVisitor
         :return: void
         """
         if p.is_dir():
-            crawler.pre_visit_directory(p)
+            visitor.pre_visit_directory(p)
             for entry in p.iterdir():
-                Files.walk_file_tree(entry, crawler)
-            crawler.post_visit_directory(p, None)
+                Files.walk_file_tree(entry, visitor)
+            visitor.post_visit_directory(p, None)
         else:
-            crawler.visit_file(p)
+            visitor.visit_file(p)

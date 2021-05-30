@@ -14,8 +14,7 @@ def test_graph(basedir):
     write_file(wt, 'src/greeting', 'Hello, world!\n')
     write_file(wt, 'src/hello.pl', 'print(\"Hello, world!\")\n')
     #
-    starting_dir = Path(wt)
-    main = GraphvizMain(starting_dir)
+    main = GraphvizMain(Path(wt))
     g: Digraph = main.draw()
     print(g.source)
     g.render("test_graph", format="png")
