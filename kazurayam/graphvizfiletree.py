@@ -11,25 +11,30 @@ class GraphvizFileTreeVisitor(FileVisitor):
         self.g = g
 
     def pre_visit_directory(self, directory: Path) -> FileVisitResult:
-        relative_path = os.path.relpath(directory, self.start)
-        #self.buffer.write("> {}/\n".format(relative_path))
-        self.g.node(relative_path, relative_path, shape="folder")
+        its_relative_path = os.path.relpath(directory, self.start)
+        # self.buffer.write("> {}/\n".format(its_relative_path))
+        self.g.node(its_relative_path, directory.name, shape="folder")
+        if directory is not self.start:
+            parent_relative_path = os.path.relpath(directory.parent, self.start)
+            self.g.edge(parent_relative_path, its_relative_path)
         return FileVisitResult.CONTINUE
 
     def post_visit_directory(self, directory: Path, io_error: IOError) -> FileVisitResult:
-        relative_path = os.path.relpath(directory, self.start)
-        #self.buffer.write("< {}/\n".format(relative_path))
+        its_relative_path = os.path.relpath(directory, self.start)
+        # self.buffer.write("< {}/\n".format(its_relative_path))
         return FileVisitResult.CONTINUE
 
     def visit_file(self, file: Path) -> FileVisitResult:
-        relative_path = os.path.relpath(file, self.start)
-        #self.buffer.write("= {}\n".format(relative_path))
-        self.g.node(relative_path, relative_path)
+        its_relative_path = os.path.relpath(file, self.start)
+        # self.buffer.write("= {}\n".format(its_relative_path))
+        self.g.node(its_relative_path, file.name)
+        parent_relative_path = os.path.relpath(file.parent, self.start)
+        self.g.edge(parent_relative_path, its_relative_path)
         return FileVisitResult.CONTINUE
 
     def visit_file_failed(self, file: Path, io_error: IOError) -> FileVisitResult:
-        relative_path = os.path.relpath(file, self.start)
-        #self.buffer.write("! {}\n".format(relative_path))
+        its_relative_path = os.path.relpath(file, self.start)
+        # self.buffer.write("! {}\n".format(its_relative_path))
         return FileVisitResult.CONTINUE
 
 
