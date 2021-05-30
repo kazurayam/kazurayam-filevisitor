@@ -18,5 +18,6 @@ def test_graph(basedir):
     main = GraphvizMain(starting_dir)
     g: Digraph = main.draw()
     print(g.source)
-    g.render("test_graph")
+    g.render("test_graph", format="png")
+    g.render("test_graph", format="pdf")
     assert os.path.exists("test_graph.pdf")
